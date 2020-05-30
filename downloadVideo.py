@@ -58,7 +58,7 @@ def main():
                 if not titleName.startswith(startFrom):
                     print("title与startFrom参数不匹配, 跳过:" + titleName)
                     continue
-
+            startFrom=""            
             if not os.path.exists(downloadDir):
                 os.mkdir(downloadDir)
 
