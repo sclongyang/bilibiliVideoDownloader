@@ -25,11 +25,12 @@ def execCmd(cmd):
     return text  
 
 def main():
-    if __name__ == '__main__':    
-        workDir=os.getcwd()
-        if not sys.argv.__len__ == 0:
-            curFilePath = os.path.realpath(__file__)
-            workDir = os.path.dirname(curFilePath)
+    if __name__ == '__main__':            
+        curFilePath = os.path.realpath(__file__)
+        workDir = os.path.dirname(curFilePath)
+        startFrom = ""
+        if len(sys.argv) > 1:
+            startFrom = sys.argv[1]        
             
         f=open(workDir + "\\video_url.txt",'r')
         s=f.readlines() 
@@ -45,15 +46,22 @@ def main():
             titleStr = "title:"
             idx1 = info.find(titleStr)
             idx2 = info.find("streams:")            
-            downloadDir = info[idx1 + len(titleStr) : idx2].strip()          
-            downloadDir = rootDir +"\\"+ downloadDir
+            titleName = info[idx1 + len(titleStr) : idx2].strip()          
+            downloadDir = rootDir +"\\"+ titleName
             if downloadDir in dirs:
                 print("已跳过重复的url:"+downloadDir)
                 continue
             else:
                 dirs.append(downloadDir)            
+
+            if startFrom != "":
+                if not titleName.startswith(startFrom):
+                    print("title与startFrom参数不匹配, 跳过:" + titleName)
+                    continue
+
             if not os.path.exists(downloadDir):
                 os.mkdir(downloadDir)
+
             # 会自动跳过已下载的文件
             download(url, downloadDir)
 
