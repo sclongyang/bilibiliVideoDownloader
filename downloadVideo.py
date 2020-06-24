@@ -48,6 +48,9 @@ def main():
             idx2 = info.find("streams:")            
             titleName = info[idx1 + len(titleStr) : idx2].strip()          
             downloadDir = rootDir +"\\"+ titleName
+            downloadDir = downloadDir.replace('?', '_')
+            downloadDir = downloadDir.replace('？', '_')
+            downloadDir = downloadDir.replace('/', '_')
             if downloadDir in dirs:
                 print("已跳过重复的url:"+downloadDir)
                 continue
